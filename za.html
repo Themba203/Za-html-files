@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schemes and Records of Work</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --danger-color: #f44336;
+            --warning-color: #FFC107;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #757575;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .class-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .class-btn:hover {
+            background-color: #0b7dda;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .form-container {
+            display: none;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--medium-gray);
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .form-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3d8b40;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0b7dda;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: #333;
+        }
+        
+        .btn-warning:hover {
+            background-color: #ffb300;
+        }
+        
+        .back-btn {
+            background-color: #607D8B;
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background-color: #455A64;
+        }
+        
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            padding: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+        
+        th, td {
+            border: 1px solid var(--medium-gray);
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 0;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .editable-cell {
+            min-width: 150px;
+            min-height: 80px;
+            padding: 10px;
+            outline: none;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+        
+        .editable-cell:focus {
+            background-color: #ffffe0;
+            border-color: var(--warning-color);
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+        }
+        
+        .week-cell {
+            width: 60px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .action-cell {
+            width: 120px;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning-color);
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-btn {
+                padding: 25px 15px;
+                font-size: 18px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+            
+            .editable-cell {
+                min-height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Dashboard -->
+        <div id="main-dashboard">
+            <div class="header">
+                <h1>SCHEMES AND RECORDS OF WORK</h1>
+                <p>Select a class to view or edit schemes of work</p>
+            </div>
+            <div class="dashboard">
+                <button class="class-btn" onclick="showForm('form1')">FORM 1</button>
+                <button class="class-btn" onclick="showForm('form2')">FORM 2</button>
+                <button class="class-btn" onclick="showForm('form3')">FORM 3</button>
+                <button class="class-btn" onclick="showForm('form4')">FORM 4</button>
+            </div>
+        </div>
+
+        <!-- Form Containers -->
+        <div id="form1-container" class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">FORM 1 - SCHEMES AND RECORDS OF WORK</h2>
+                <button class="btn back-btn" onclick="backToDashboard()">Back to Dashboard</button>
+            </div>
+            
+            <div class="form-controls">
+                <div class="form-group">
+                    <label for="form1-class">Class:</label>
+                    <input type="text" id="form1-class" value="Form 1" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="form1-subject">Subject:</label>
+                    <input type="text" id="form1-subject" placeholder="Enter subject name">
+                </div>
+                <div class="form-group">
+                    <label for="form1-term">Term:</label>
+                    <select id="form1-term">
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form1-year">Year:</label>
+                    <input type="number" id="form1-year" min="2000" max="2100" placeholder="Enter year">
+                </div>
+            </div>
+            
+            <div class="action-buttons" style="margin-bottom: 20px;">
+                <button class="btn btn-primary" onclick="saveFormData('form1')">
+                    <i class="fas fa-save"></i> Save All Data
+                </button>
+                <button class="btn btn-secondary" onclick="printForm('form1')">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-danger" onclick="resetForm('form1')">
+                    <i class="fas fa-trash"></i> Reset Form
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="form1-table">
+                    <thead>
+                        <tr>
+                            <th class="week-cell">Week</th>
+                            <th>Dates</th>
+                            <th>Success Criteria</th>
+                            <th>Planned Activities</th>
+                            <th>Teaching/Learning Resources</th>
+                            <th>Teaching Methods</th>
+                            <th>References</th>
+                            <th>Outcomes</th>
+                            <th>Remarks</th>
+                            <th class="action-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Similar structure for Form 2, Form 3, and Form 4 -->
+        <div id="form2-container" class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">FORM 2 - SCHEMES AND RECORDS OF WORK</h2>
+                <button class="btn back-btn" onclick="backToDashboard()">Back to Dashboard</button>
+            </div>
+            
+            <div class="form-controls">
+                <div class="form-group">
+                    <label for="form2-class">Class:</label>
+                    <input type="text" id="form2-class" value="Form 2" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="form2-subject">Subject:</label>
+                    <input type="text" id="form2-subject" placeholder="Enter subject name">
+                </div>
+                <div class="form-group">
+                    <label for="form2-term">Term:</label>
+                    <select id="form2-term">
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form2-year">Year:</label>
+                    <input type="number" id="form2-year" min="2000" max="2100" placeholder="Enter year">
+                </div>
+            </div>
+            
+            <div class="action-buttons" style="margin-bottom: 20px;">
+                <button class="btn btn-primary" onclick="saveFormData('form2')">
+                    <i class="fas fa-save"></i> Save All Data
+                </button>
+                <button class="btn btn-secondary" onclick="printForm('form2')">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-danger" onclick="resetForm('form2')">
+                    <i class="fas fa-trash"></i> Reset Form
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="form2-table">
+                    <thead>
+                        <tr>
+                            <th class="week-cell">Week</th>
+                            <th>Dates</th>
+                            <th>Success Criteria</th>
+                            <th>Planned Activities</th>
+                            <th>Teaching/Learning Resources</th>
+                            <th>Teaching Methods</th>
+                            <th>References</th>
+                            <th>Outcomes</th>
+                            <th>Remarks</th>
+                            <th class="action-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="form3-container" class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">FORM 3 - SCHEMES AND RECORDS OF WORK</h2>
+                <button class="btn back-btn" onclick="backToDashboard()">Back to Dashboard</button>
+            </div>
+            
+            <div class="form-controls">
+                <div class="form-group">
+                    <label for="form3-class">Class:</label>
+                    <input type="text" id="form3-class" value="Form 3" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="form3-subject">Subject:</label>
+                    <input type="text" id="form3-subject" placeholder="Enter subject name">
+                </div>
+                <div class="form-group">
+                    <label for="form3-term">Term:</label>
+                    <select id="form3-term">
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form3-year">Year:</label>
+                    <input type="number" id="form3-year" min="2000" max="2100" placeholder="Enter year">
+                </div>
+            </div>
+            
+            <div class="action-buttons" style="margin-bottom: 20px;">
+                <button class="btn btn-primary" onclick="saveFormData('form3')">
+                    <i class="fas fa-save"></i> Save All Data
+                </button>
+                <button class="btn btn-secondary" onclick="printForm('form3')">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-danger" onclick="resetForm('form3')">
+                    <i class="fas fa-trash"></i> Reset Form
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="form3-table">
+                    <thead>
+                        <tr>
+                            <th class="week-cell">Week</th>
+                            <th>Dates</th>
+                            <th>Success Criteria</th>
+                            <th>Planned Activities</th>
+                            <th>Teaching/Learning Resources</th>
+                            <th>Teaching Methods</th>
+                            <th>References</th>
+                            <th>Outcomes</th>
+                            <th>Remarks</th>
+                            <th class="action-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="form4-container" class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">FORM 4 - SCHEMES AND RECORDS OF WORK</h2>
+                <button class="btn back-btn" onclick="backToDashboard()">Back to Dashboard</button>
+            </div>
+            
+            <div class="form-controls">
+                <div class="form-group">
+                    <label for="form4-class">Class:</label>
+                    <input type="text" id="form4-class" value="Form 4" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="form4-subject">Subject:</label>
+                    <input type="text" id="form4-subject" placeholder="Enter subject name">
+                </div>
+                <div class="form-group">
+                    <label for="form4-term">Term:</label>
+                    <select id="form4-term">
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form4-year">Year:</label>
+                    <input type="number" id="form4-year" min="2000" max="2100" placeholder="Enter year">
+                </div>
+            </div>
+            
+            <div class="action-buttons" style="margin-bottom: 20px;">
+                <button class="btn btn-primary" onclick="saveFormData('form4')">
+                    <i class="fas fa-save"></i> Save All Data
+                </button>
+                <button class="btn btn-secondary" onclick="printForm('form4')">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-danger" onclick="resetForm('form4')">
+                    <i class="fas fa-trash"></i> Reset Form
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="form4-table">
+                    <thead>
+                        <tr>
+                            <th class="week-cell">Week</th>
+                            <th>Dates</th>
+                            <th>Success Criteria</th>
+                            <th>Planned Activities</th>
+                            <th>Teaching/Learning Resources</th>
+                            <th>Teaching Methods</th>
+                            <th>References</th>
+                            <th>Outcomes</th>
+                            <th>Remarks</th>
+                            <th class="action-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the application when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all forms with 14 weeks
+            initializeForm('form1');
+            initializeForm('form2');
+            initializeForm('form3');
+            initializeForm('form4');
+            
+            // Load any saved data
+            loadSavedData();
+            
+            // Add event listeners for auto-save
+            setupAutoSave();
+        });
+
+        // Show the selected form and hide the main dashboard
+        function showForm(formId) {
+            document.getElementById('main-dashboard').style.display = 'none';
+            document.getElementById(formId + '-container').style.display = 'block';
+            
+            // Load saved data for this form if it exists
+            loadFormData(formId);
+        }
+
+        // Go back to the main dashboard
+        function backToDashboard() {
+            document.getElementById('main-dashboard').style.display = 'block';
+            document.querySelectorAll('.form-container').forEach(container => {
+                container.style.display = 'none';
+            });
+        }
+
+        // Initialize a form with 14 weeks of editable cells
+        function initializeForm(formId) {
+            const tableBody = document.getElementById(formId + '-table').querySelector('tbody');
+            tableBody.innerHTML = '';
+            
+            for (let week = 1; week <= 14; week++) {
+                const row = document.createElement('tr');
+                row.setAttribute('data-week', week);
+                row.innerHTML = `
+                    <td class="week-cell">${week}</td>
+                    <td><div class="editable-cell" data-field="dates" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="criteria" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="activities" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="resources" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="methods" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="references" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="outcomes" contenteditable="true"></div></td>
+                    <td><div class="editable-cell" data-field="remarks" contenteditable="true"></div></td>
+                    <td class="action-cell">
+                        <div class="action-buttons">
+                            <button class="btn btn-warning edit-btn" onclick="editRow('${formId}', ${week})">Edit</button>
+                            <button class="btn btn-primary save-btn" onclick="saveRow('${formId}', ${week})">Save</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            }
+        }
+
+        // Set up auto-save functionality
+        function setupAutoSave() {
+            document.querySelectorAll('.editable-cell').forEach(cell => {
+                cell.addEventListener('blur', function() {
+                    const formId = this.closest('.form-container').id.replace('-container', '');
+                    saveFormData(formId);
+                });
+            });
+        }
+
+        // Edit a specific row
+        function editRow(formId, week) {
+            const row = document.querySelector(`#${formId}-table tbody tr[data-week="${week}"]`);
+            const cells = row.querySelectorAll('.editable-cell');
+            
+            cells.forEach(cell => {
+                cell.contentEditable = 'true';
+                cell.focus();
+            });
+            
+            // Highlight the row being edited
+            row.style.backgroundColor = '#fffde7';
+        }
+
+        // Save a specific row
+        function saveRow(formId, week) {
+            const row = document.querySelector(`#${formId}-table tbody tr[data-week="${week}"]`);
+            const cells = row.querySelectorAll('.editable-cell');
+            
+            cells.forEach(cell => {
+                cell.contentEditable = 'false';
+            });
+            
+            // Visual feedback
+            row.style.backgroundColor = '#e8f5e9';
+            setTimeout(() => {
+                row.style.backgroundColor = '';
+            }, 1000);
+            
+            // Save the data
+            saveFormData(formId);
+        }
+
+        // Save all form data to localStorage
+        function saveFormData(formId) {
+            const formData = {
+                class: document.getElementById(formId + '-class').value,
+                subject: document.getElementById(formId + '-subject').value,
+                term: document.getElementById(formId + '-term').value,
+                year: document.getElementById(formId + '-year').value,
+                weeks: []
+            };
+            
+            const rows = document.querySelectorAll(`#${formId}-table tbody tr`);
+            
+            rows.forEach(row => {
+                const weekData = {
+                    week: row.getAttribute('data-week'),
+                    dates: row.querySelector('[data-field="dates"]').innerHTML,
+                    criteria: row.querySelector('[data-field="criteria"]').innerHTML,
+                    activities: row.querySelector('[data-field="activities"]').innerHTML,
+                    resources: row.querySelector('[data-field="resources"]').innerHTML,
+                    methods: row.querySelector('[data-field="methods"]').innerHTML,
+                    references: row.querySelector('[data-field="references"]').innerHTML,
+                    outcomes: row.querySelector('[data-field="outcomes"]').innerHTML,
+                    remarks: row.querySelector('[data-field="remarks"]').innerHTML
+                };
+                formData.weeks.push(weekData);
+            });
+            
+            localStorage.setItem(formId + '_data', JSON.stringify(formData));
+            
+            // Show save notification
+            showNotification('Data saved successfully!', 'success');
+        }
+
+        // Load saved data for a form
+        function loadFormData(formId) {
+            const savedData = localStorage.getItem(formId + '_data');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                
+                // Set form values
+                document.getElementById(formId + '-subject').value = formData.subject || '';
+                document.getElementById(formId + '-term').value = formData.term || '1';
+                document.getElementById(formId + '-year').value = formData.year || '';
+                
+                // Set table values
+                const rows = document.querySelectorAll(`#${formId}-table tbody tr`);
+                
+                formData.weeks.forEach(weekData => {
+                    const row = document.querySelector(`#${formId}-table tbody tr[data-week="${weekData.week}"]`);
+                    if (row) {
+                        row.querySelector('[data-field="dates"]').innerHTML = weekData.dates || '';
+                        row.querySelector('[data-field="criteria"]').innerHTML = weekData.criteria || '';
+                        row.querySelector('[data-field="activities"]').innerHTML = weekData.activities || '';
+                        row.querySelector('[data-field="resources"]').innerHTML = weekData.resources || '';
+                        row.querySelector('[data-field="methods"]').innerHTML = weekData.methods || '';
+                        row.querySelector('[data-field="references"]').innerHTML = weekData.references || '';
+                        row.querySelector('[data-field="outcomes"]').innerHTML = weekData.outcomes || '';
+                        row.querySelector('[data-field="remarks"]').innerHTML = weekData.remarks || '';
+                    }
+                });
+            }
+        }
+
+        // Load all saved data
+        function loadSavedData() {
+            ['form1', 'form2', 'form3', 'form4'].forEach(formId => {
+                loadFormData(formId);
+            });
+        }
+
+        // Reset a form
+        function resetForm(formId) {
+            if (confirm('Are you sure you want to reset this form? All unsaved changes will be lost.')) {
+                // Reset form fields
+                document.getElementById(formId + '-subject').value = '';
+                document.getElementById(formId + '-term').value = '1';
+                document.getElementById(formId + '-year').value = '';
+                
+                // Clear table cells
+                const cells = document.querySelectorAll(`#${formId}-table .editable-cell`);
+                cells.forEach(cell => {
+                    cell.innerHTML = '';
+                });
+                
+                // Clear saved data
+                localStorage.removeItem(formId + '_data');
+                
+                showNotification('Form has been reset', 'info');
+            }
+        }
+
+        // Print a form
+        function printForm(formId) {
+            const printContent = document.getElementById(formId + '-container').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            
+            // Reload the page to restore functionality
+            window.location.reload();
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        }
+
+        // Add some basic styles for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            .notification {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                z-index: 1000;
+                opacity: 1;
+                transition: opacity 0.5s;
+            }
+            
+            .success {
+                background-color: var(--primary-color);
+            }
+            
+            .info {
+                background-color: var(--secondary-color);
+            }
+            
+            .fade-out {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
